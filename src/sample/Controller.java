@@ -11,11 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javafx.scene.control.Label;
 import sample.SocketConnection;
 
 public class Controller implements Initializable {
 
     public ComboBox<String> championsBox;
+    public Label tips;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -50,8 +52,11 @@ public class Controller implements Initializable {
         }
     }
 
-    public void newChampion(ActionEvent actionEvent) {
-        
+    public void newChampion(ActionEvent actionEvent) throws IOException {
+        List<String> tipsList = getTips(championsBox.getSelectionModel().getSelectedItem().toString());
+        for (String tip : tipsList) {
+            tips.setText(tips.getText() + tip);
+        }
     }
 
     
