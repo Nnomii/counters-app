@@ -19,24 +19,39 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        championsBox.getItems().setAll(getChampions());
+        try {
+            championsBox.getItems().setAll(getChampions());
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
-    public List<String> getChampions() {
+    public List<String> getChampions() throws IOException {
         List<String> championsList = new ArrayList<>();
-        championsList.add("Renekton");
-        championsList.add("Zoe");
+        String source = SocketConnection.getURLSource("http://euw.op.gg/champion/statistics");
+        int elementNumber = 0;
+        for(String element : source.split("<div class=\"champion-index__champion-item__name\">")) {
+            if (elementNumber != 0) {
+                String champion = element.split("</div>")[0];
+                if (champion.contains("&amp;")) {
+                    champion = champion.replace("&amp;", "&");
+                }
+                championsList.add(champion);
+            }
+            elementNumber++;
+        }
         return championsList;
     }
 
     public void testingButtonClicked(ActionEvent actionEvent) throws IOException {
-        for (String tip : getTips("renekton")) {
+        for (String tip : getTips("malphite")) {
             System.out.println(tip);
         }
     }
 
     public void newChampion(ActionEvent actionEvent) {
-
+        
     }
 
     
