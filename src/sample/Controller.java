@@ -1,16 +1,17 @@
 package sample;
 
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.layout.AnchorPane;
 
+import java.io.IOException;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import sample.SocketConnection;
 
 public class Controller implements Initializable {
 
@@ -28,11 +29,28 @@ public class Controller implements Initializable {
         return championsList;
     }
 
-    public void testingButtonClicked(ActionEvent actionEvent) {
-        System.out.println("test");
+    public void testingButtonClicked(ActionEvent actionEvent) throws IOException {
+        for (String tip : getTips("renekton")) {
+            System.out.println(tip);
+        }
     }
 
     public void newChampion(ActionEvent actionEvent) {
 
+    }
+
+    
+    public List<String> getTips(String champion) throws IOException {
+        //gives tips
+        List<String> tips = new ArrayList<>();
+        String source = SocketConnection.getURLSource("https://lolcounter.com/champions/" + champion);
+        int elementNumber = 0;
+        for(String element : source.split("<span class='_tip'>")) {
+            if (elementNumber != 0) {
+                tips.add(element.split("</span>")[0]);
+            }
+            elementNumber++;
+        }
+        return tips;
     }
 }
