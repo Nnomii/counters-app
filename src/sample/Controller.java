@@ -53,9 +53,30 @@ public class Controller implements Initializable {
     }
 
     public void newChampion(ActionEvent actionEvent) throws IOException {
+        tips.setText("");
         List<String> tipsList = getTips(championsBox.getSelectionModel().getSelectedItem().toString());
         for (String tip : tipsList) {
-            tips.setText(tips.getText() + tip);
+            if (tip.length() > 120) {
+                int lastSpace = tip.substring(0, 100).lastIndexOf(" ");
+                tip = tip.substring(0, lastSpace) + "\n" + tip.substring(lastSpace + 1);
+            }
+            if (tip.length() > 240) {
+                int lastSpace = tip.substring(0, 200).lastIndexOf(" ");
+                tip = tip.substring(0, lastSpace) + "\n" + tip.substring(lastSpace + 1);
+            }
+            if (tip.length() > 360) {
+                int lastSpace = tip.substring(0, 300).lastIndexOf(" ");
+                tip = tip.substring(0, lastSpace) + "\n" + tip.substring(lastSpace + 1);
+            }
+            if (tip.length() > 480) {
+                int lastSpace = tip.substring(0, 400).lastIndexOf(" ");
+                tip = tip.substring(0, lastSpace) + "\n" + tip.substring(lastSpace + 1);
+            }
+            if (tip.length() > 600) {
+                int lastSpace = tip.substring(0, 500).lastIndexOf(" ");
+                tip = tip.substring(0, lastSpace) + "\n" + tip.substring(lastSpace + 1);
+            }
+            tips.setText(tips.getText() + tip + "\n" + "\n");
         }
     }
 
