@@ -12,12 +12,25 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import sample.SocketConnection;
 
 public class Controller implements Initializable {
 
     public ComboBox<String> championsBox;
     public Label tips;
+    public ImageView best1;
+    public Label bestlabel;
+    public ImageView best2;
+    public ImageView best3;
+    public Label worstlabel;
+    public ImageView worst1;
+    public ImageView worst2;
+    public ImageView worst3;
+    public Label popularlabel;
+    public ImageView popular1;
+    public ImageView popular2;
+    public ImageView popular3;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
