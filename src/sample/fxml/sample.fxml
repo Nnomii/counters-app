@@ -23,7 +23,7 @@
             <Label layoutX="14.0" layoutY="455.0" text="LOL Counters App ™&#10;developed by davebarbarian and jux" />
             <ComboBox fx:id="championsBox" layoutX="14.0" layoutY="14.0" onAction="#newChampion" prefHeight="27.0" prefWidth="167.0" promptText="Champion..." />
             <Label id="tips" fx:id="tips" layoutX="237.0" layoutY="280.0" />
-            <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="38.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="championimage" fitHeight="120.0" fitWidth="120.0" layoutX="38.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true" />
             <ImageView fx:id="best1" fitHeight="60.0" fitWidth="60.0" layoutX="219.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true" />
             <Label fx:id="bestlabel" layoutX="221.0" layoutY="19.0" text="Best Picks Against &lt;CHAMPION&gt;" />
             <ImageView fx:id="best2" fitHeight="60.0" fitWidth="60.0" layoutX="283.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true" />

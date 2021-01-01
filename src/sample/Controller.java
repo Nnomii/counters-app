@@ -3,17 +3,14 @@ package sample;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
-
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import sample.SocketConnection;
 
 public class Controller implements Initializable {
 
@@ -31,9 +28,13 @@ public class Controller implements Initializable {
     public ImageView popular1;
     public ImageView popular2;
     public ImageView popular3;
+    public ImageView championimage;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        bestlabel.setText("");
+        worstlabel.setText("");
+        popularlabel.setText("");
         try {
             championsBox.getItems().setAll(getChampions());
         } catch (IOException e) {
@@ -66,8 +67,34 @@ public class Controller implements Initializable {
     }
 
     public void newChampion(ActionEvent actionEvent) throws IOException {
-        tips.setText("");
-        List<String> tipsList = getTips(championsBox.getSelectionModel().getSelectedItem().toString());
+        loadImages();
+        loadTips();
+        loadCounters();
+    }
+
+    private void loadCounters() {
+        bestlabel.setText("Best Picks Against " + championsBox.getSelectionModel().getSelectedItem().toString());
+        worstlabel.setText("Worst Picks Against " + championsBox.getSelectionModel().getSelectedItem().toString());
+        popularlabel.setText("Most Popular " + championsBox.getSelectionModel().getSelectedItem().toString() + " Counters");
+    }
+
+    public void loadImages() {
+        String url = "https://www.mobafire.com/images/champion/square/" + parseChampion(championsBox.getSelectionModel().getSelectedItem().toString()) + ".png";
+        championimage.setImage(new Image(url));
+    }
+
+    public String parseChampion(String champion) {
+        String parsedChampion = champion.toLowerCase();
+        parsedChampion = parsedChampion.replace(". ", "-");
+        parsedChampion = parsedChampion.replace(" & ", "-");
+        parsedChampion = parsedChampion.replace(" ", "-");
+        parsedChampion = parsedChampion.replace("'", "");
+        return parsedChampion;
+    }
+
+    public void loadTips() throws IOException {
+        tips.setText(""); 
+        List<String> tipsList = getTips(parseChampion(championsBox.getSelectionModel().getSelectedItem().toString()));
         for (String tip : tipsList) {
             if (tip.length() > 120) {
                 int lastSpace = tip.substring(0, 100).lastIndexOf(" ");
@@ -92,12 +119,21 @@ public class Controller implements Initializable {
             tips.setText(tips.getText() + tip + "\n" + "\n");
         }
     }
-
     
-    public List<String> getTips(String champion) throws IOException {
+    public List<String> getTips(String champion) {
         //gives tips
         List<String> tips = new ArrayList<>();
-        String source = SocketConnection.getURLSource("https://lolcounter.com/champions/" + champion);
+        if (champion.equals("nunu-willump")) {
+            champion = "nunu";
+        }
+        String source;
+        try {
+            source = SocketConnection.getURLSource("https://lolcounter.com/champions/" + champion);
+        } catch (IOException e) {
+            tips.add("No tips for this Champion yet, or the app is experiencing problems!");
+            e.printStackTrace();
+            return tips;
+        }
         int elementNumber = 0;
         for(String element : source.split("<span class='_tip'>")) {
             if (elementNumber != 0) {
